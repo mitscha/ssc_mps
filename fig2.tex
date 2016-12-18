@@ -1,0 +1,69 @@
+\documentclass[sansserif,mathserif]{article}
+\usepackage{pgf,tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{mathtools} 
+
+
+\usetikzlibrary{calc,shadows}
+\usetikzlibrary{pgfplots.groupplots}
+
+%%%%%%%%%%
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\textheight}{8.89in}
+%%%%%%%%%%
+
+\pagestyle{empty}
+\begin{document}
+
+\newcommand{\aff}{\mathrm{aff}}
+\newcommand{\cS}{S}
+\renewcommand{\l}{\ell}
+
+\newcommand{\plotred}{black!50!white}
+\newcommand{\plotgreen}{black!25!white}
+\newcommand{\plotblue}{black!75!white}
+\newcommand{\plotblack}{black}
+
+\newcommand{\plotwidth}{0.35\textwidth}
+\newcommand{\plotheight}{0.25\textwidth}
+\newcommand{\plotseph}{1.5cm}
+\newcommand{\plotsepv}{2.5cm}
+\newcommand{\labelsize}{}
+
+\begin{figure}[h]
+\centering
+\begin{tikzpicture}[scale = 1] 
+\begin{groupplot}[group style={group size=2 by 3,horizontal sep=\plotseph,vertical sep=\plotsepv,xlabels at=edge bottom, ylabels at=edge left}, width=\plotwidth,height=\plotheight, /tikz/font=\footnotesize, colormap/blackwhite, view={0}{90}, point meta min=0.0, point meta max=0.6, minor tick num=4]
+
+\nextgroupplot[title = {OMP ($\sigma = 1$, $\text{SNR}=0\text{dB}$)}, xlabel={\labelsize aff}, ylabel={\labelsize $\rho$}]
+\addplot3[surf, shader=flat] file {CE-tvsrho_omp.dat};
+\addplot[black,thick,domain=0.46:0.812,samples=50] {(0.37/(1-x))^2};
+
+\nextgroupplot[title = {MP ($\sigma = 1$, $\text{SNR}=0\text{dB}$}), xlabel={\labelsize aff}, ylabel={\labelsize $\rho$}, colorbar]
+\addplot3[surf, shader=flat, colorbar] file {CE-tvsrho_mp.dat};
+\addplot[black,thick,domain=0.46:0.812,samples=50] {(0.37/(1-x))^2};
+
+\nextgroupplot[title = {OMP ($\rho = 3$)}, xlabel={\labelsize aff}, ylabel={\labelsize $\sigma$}]
+\addplot3[surf, shader=flat] file {CE-tvssig_omp.dat};
+\nextgroupplot[title = {MP ($\rho = 3$)}, xlabel={\labelsize aff}, ylabel={\labelsize $\sigma$}, colorbar]
+\addplot3[surf, shader=flat, colorbar] file {CE-tvssig_mp.dat};
+
+\nextgroupplot[title = {OMP ($\aff = \sqrt{2/5}$)}, xlabel={\labelsize $\sigma$}, ylabel={\labelsize $\rho$}]
+\addplot3[surf, shader=flat] file {CE-rhovssig_omp.dat};
+\addplot[black,thick,domain=0.84:1.28,samples=50] {(x*(1+0.7*x)/(2.3 - 0.2*x - 0.5*x^2))^2};
+
+\nextgroupplot[title = {MP ($\aff = \sqrt{2/5}$)}, xlabel={\labelsize $\sigma$}, ylabel={\labelsize $\rho$}, colorbar]
+\addplot3[surf, shader=flat] file {CE-rhovssig_mp.dat};
+\addplot[black,thick,domain=0.84:1.28,samples=50] {(x*(1+0.7*x)/(2.3 - 0.2*x - 0.5*x^2))^2};
+
+\end{groupplot}
+\end{tikzpicture}
+\caption{\label{fig:phasediag} CE as a function of $\aff := \max_{k,\l \colon k \neq \l} \aff (\cS_k,\cS_\l)$, $\rho = n/d$, and $\sigma^2$. 
+The (fitted) black curves in the top and bottom rows delineate the boundary between success and failure.}
+\end{figure}
+
+\end{document}

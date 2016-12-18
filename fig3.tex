@@ -1,0 +1,178 @@
+\documentclass[sansserif,mathserif]{article}
+\usepackage{pgf,tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{mathtools} 
+
+
+\usetikzlibrary{calc,shadows}
+\usetikzlibrary{pgfplots.groupplots}
+
+%%%%%%%%%%
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\textheight}{8.89in}
+%%%%%%%%%%
+
+\pagestyle{empty}
+\begin{document}
+
+\newcommand{\aff}{\mathrm{aff}}
+\newcommand{\cS}{S}
+\renewcommand{\l}{\ell}
+
+\newcommand{\tp}{\#\textsf{TP}}
+\newcommand{\fp}{\#\textsf{FP}}
+\newcommand{\tpp}{\textsf{TP}}
+\newcommand{\fpp}{\textsf{FP}}
+\newcommand{\tpr}{\textsf{TPR}}
+\newcommand{\fpr}{\textsf{FPR}}
+
+\newcommand{\plotred}{black!50!white}
+\newcommand{\plotgreen}{black!25!white}
+\newcommand{\plotblue}{black!75!white}
+\newcommand{\plotblack}{black}
+
+\newcommand{\plotwidth}{0.45\textwidth}
+\newcommand{\plotheight}{0.35\textwidth}
+\newcommand{\plotseph}{1.5cm}
+\newcommand{\plotsepv}{2.5cm}
+
+\begin{figure}[ph!] %[h!] 
+    \centering
+    
+\begin{tikzpicture}[scale=1] 
+    \begin{semilogxaxis}[ name=tdomp,title ={$\tp_{\! \l}$ for OMP},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TDOMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TDOMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TDOMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TDOMP-0.20.dat};
+    \addplot +[mark=none,densely dotted,\plotgreen] table[x index=0,y index=1]{TDOMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotred] table[x index=0,y index=2]{TDOMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotblue] table[x index=0,y index=3]{TDOMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotblack] table[x index=0,y index=4]{TDOMP-0.50.dat};
+    
+    \end{semilogxaxis}
+    
+    \begin{semilogxaxis}[ name=tdmp,title ={$\tp_{\! \l}$ for MP},anchor=west,at={($(tdomp.east)+(\plotseph,0)$)},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TDMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TDMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TDMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TDMP-0.20.dat};
+    \addplot +[mark=none,densely dotted,\plotgreen] table[x index=0,y index=1]{TDMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotred] table[x index=0,y index=2]{TDMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotblue] table[x index=0,y index=3]{TDMP-0.50.dat};
+    \addplot +[mark=none,densely dotted,\plotblack] table[x index=0,y index=4]{TDMP-0.50.dat};
+    
+    \end{semilogxaxis}
+    
+     \begin{semilogxaxis}[ name=tpfpomp02,title ={$\tpr_\l$, $\fpr_\l$ for OMP, $\sigma = 0.2$},anchor=north,at={($(tdomp.south)+(0,-\plotsepv)$)},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TPROMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPROMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TPROMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TPROMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=1]{FPROMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=2]{FPROMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=3]{FPROMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotblack] table[x index=0,y index=4]{FPROMP-0.20.dat};
+    
+    \end{semilogxaxis}
+    
+    \begin{semilogxaxis}[ name=tpfpmp02,title ={$\tpr_\l$, $\fpr_\l$ for MP, $\sigma = 0.2$},anchor=north,at={($(tdmp.south)+(0,-\plotsepv)$)},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TPRMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPRMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TPRMP-0.20.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TPRMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=1]{FPRMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=2]{FPRMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=3]{FPRMP-0.20.dat};
+    \addplot +[mark=none,dashed,\plotblack] table[x index=0,y index=4]{FPRMP-0.20.dat};
+    
+    \end{semilogxaxis}
+    
+     \begin{semilogxaxis}[ name=tpfpomp05,title ={$\tpr_\l$, $\fpr_\l$ for OMP, $\sigma = 0.5$},anchor=north,at={($(tpfpomp02.south)+(0,-\plotsepv)$)},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TPROMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPROMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TPROMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TPROMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=1]{FPROMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=2]{FPROMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=3]{FPROMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotblack] table[x index=0,y index=4]{FPROMP-0.50.dat};
+    
+    \end{semilogxaxis}
+    
+    \begin{semilogxaxis}[ name=tpfpmp05,title ={$\tpr_\l$, $\fpr_\l$ for MP, $\sigma = 0.5$},anchor=north,at={($(tpfpmp02.south)+(0,-\plotsepv)$)},
+            xlabel=$\tau$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ $d_1=20$, $d_2=40$, $d_3=60$, $d_4=80$} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north east,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=1]{TPRMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPRMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=3]{TPRMP-0.50.dat};
+    \addplot +[mark=none,solid,\plotblack] table[x index=0,y index=4]{TPRMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=1]{FPRMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=2]{FPRMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=3]{FPRMP-0.50.dat};
+    \addplot +[mark=none,dashed,\plotblack] table[x index=0,y index=4]{FPRMP-0.50.dat};
+    
+    \end{semilogxaxis}
+    
+    \end{tikzpicture}
+    \caption{\label{fig:tprfpr} TP/FP tradeoff in DD-stopping as a function of $\tau$. Top row: Solid lines: $\sigma = 0.2$, dotted lines: $\sigma = 0.5$. Middle and bottom rows: Solid lines: TPR, dashed lines: FPR.}
+    \end{figure}
+
+
+\end{document}

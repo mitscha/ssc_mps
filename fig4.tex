@@ -1,0 +1,134 @@
+\documentclass[sansserif,mathserif]{article}
+\usepackage{pgf,tikz}
+\usepackage{pgfplots}
+\usepackage{amsmath}
+\usepackage{mathtools} 
+
+
+\usetikzlibrary{calc,shadows}
+\usetikzlibrary{pgfplots.groupplots}
+
+%%%%%%%%%%
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\textheight}{8.89in}
+%%%%%%%%%%
+
+\pagestyle{empty}
+\begin{document}
+
+\newcommand{\aff}{\mathrm{aff}}
+\newcommand{\cS}{S}
+\renewcommand{\l}{\ell}
+
+\newcommand{\tp}{\#\textsf{TP}}
+\newcommand{\fp}{\#\textsf{FP}}
+\newcommand{\tpp}{\textsf{TP}}
+\newcommand{\fpp}{\textsf{FP}}
+\newcommand{\tpr}{\textsf{TPR}}
+\newcommand{\fpr}{\textsf{FPR}}
+\newcommand{\itr}{s}
+\newcommand{\mpspar}{p_{\max}}
+
+\newcommand{\plotred}{black!50!white}
+\newcommand{\plotgreen}{black!25!white}
+\newcommand{\plotblue}{black!75!white}
+\newcommand{\plotblack}{black}
+
+\newcommand{\plotwidth}{0.45\textwidth}
+\newcommand{\plotheight}{0.35\textwidth}
+\newcommand{\plotseph}{1.5cm}
+\newcommand{\plotsepv}{2.5cm}
+\newcommand{\xlabis}{u}
+
+
+\begin{figure}[h]
+    
+    \centering
+\begin{tikzpicture}[scale=1] 
+    \begin{axis}[ name=cefaces,title ={CE for face clustering},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight]
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{CEs-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{CEs-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{CEs-itersens_faces.dat};
+    
+    \end{axis}
+    
+    \begin{axis}[ name=cesynth,title ={CE for synthetic data},anchor=west,at={($(cefaces.east)+(\plotseph,0)$)},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight,
+    legend entries={ {OMP with $\itr_{\max} = \xlabis$}, {\shortstack{MP with $\itr_{\max} = \xlabis$ \\ ($\mpspar = N$)}}, {\shortstack{MP with $\mpspar = \xlabis$ \\ ($\itr_{\max} = \infty$)}}} ,
+    legend style={
+            cells={anchor=west},
+                    legend pos= north west,
+                    font=\tiny,}
+    ]
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{CEs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{CEs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{CEs-itersens_synth_0.50.dat};
+        
+    \end{axis}
+    
+     \begin{axis}[ name=tpfpfaces,title ={$\tpr'_\l$, $\fpr'_\l$ for face clustering},anchor=north,at={($(cefaces.south)+(0,-\plotsepv)$)},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight]
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{TPFPs-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPFPs-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{TPFPs-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=4]{TPFPs-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=5]{TPFPs-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=6]{TPFPs-itersens_faces.dat};
+    
+    \end{axis}
+    
+    \begin{axis}[ name=tpfpsynth,title ={$\tpr'_\l$, $\fpr'_\l$ for synthetic data},anchor=north,at={($(cesynth.south)+(0,-\plotsepv)$)},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight]
+     \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{TPFPs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TPFPs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{TPFPs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=4]{TPFPs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=5]{TPFPs-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=6]{TPFPs-itersens_synth_0.50.dat};
+    
+    \end{axis}
+    
+     \begin{axis}[ name=tfnorm,title ={TP-/FP-$\ell_1$-norm for face clustering},anchor=north,at={($(tpfpfaces.south)+(0,-\plotsepv)$)},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight]
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{TF1norm-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TF1norm-itersens_faces.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{TF1norm-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=4]{TF1norm-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=5]{TF1norm-itersens_faces.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=6]{TF1norm-itersens_faces.dat};
+    
+    \end{axis}
+   
+   \begin{axis}[ name=cesynth,title ={TP-/FP-$\ell_1$-norm for synthetic data},anchor=north,at={($(tpfpsynth.south)+(0,-\plotsepv)$)},
+            xlabel=$\xlabis$,
+    width =\plotwidth,
+    height =\plotheight ]
+    \addplot +[mark=none,solid,\plotblue] table[x index=0,y index=1]{TF1norm-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotred] table[x index=0,y index=2]{TF1norm-itersens_synth_0.50.dat};
+    \addplot +[mark=none,solid,\plotgreen] table[x index=0,y index=3]{TF1norm-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotblue] table[x index=0,y index=4]{TF1norm-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotred] table[x index=0,y index=5]{TF1norm-itersens_synth_0.50.dat};
+    \addplot +[mark=none,dashed,\plotgreen] table[x index=0,y index=6]{TF1norm-itersens_synth_0.50.dat};
+    
+    \end{axis}
+    
+\end{tikzpicture}
+\caption[TP/FP tradeoff]{\label{fig:fracesrprt} Clustering performance of SSC-OMP and SSC-MP for DI-stopping, as a function of $\itr_{\max}$ and $\mpspar$, respectively. Middle row: solid lines: TPR, dashed lines: FPR. Bottom row: solid lines: TP-$\ell_1$-norm, dashed lines: FP-$\ell_1$-norm.
+}
+\end{figure}
+
+\end{document}
